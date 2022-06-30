@@ -1,0 +1,25 @@
+{
+    "name": "sandeepkumar/aparajitha_ppp",
+    "description": "This pakage is complete setup of login, registration and change password and it is used to validate the password and it have a feature to maintain users password.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "sandeep"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Sandeep\\Aparajitha_PPP\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Sandeep\\Aparajitha_PPP\\AparajithaServiceProvider"
+            ]
+        }
+    }
+}
