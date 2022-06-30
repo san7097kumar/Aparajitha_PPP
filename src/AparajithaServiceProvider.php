@@ -14,8 +14,8 @@ class AparajithaServiceProvider extends ServiceProvider{
     //  );
      $this->publishes([
       // __DIR__.'/config/contact.php' => config_path('contact.php'),
-      __DIR__.'/views' => resource_path('views/aparajitha'),
-      __DIR__.'/public' => public_path('aparajitha'),
+      __DIR__.'/views' => resource_path('views/vendor/aparajitha_ppp'),
+      __DIR__.'/public' => public_path(''),
   ]);
    }
 
