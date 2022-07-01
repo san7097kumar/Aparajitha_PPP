@@ -12,12 +12,12 @@ use Sandeep\Aparajitha_PPP\Models\PasswordHistory;
 class RegisterController extends Controller
 {
     //
-    public function register(Request $request)
+    public function user(Request $request)
     {
-        return view("aparajitha_ppp::register");
+        return view("aparajitha_ppp::pages.access_controller.user");
     }
 
-    public function register_action(Request $request)
+    public function user_action(Request $request)
     {
         $rules = [
             'name'=>'required|min:5|max:255',
@@ -35,14 +35,17 @@ class RegisterController extends Controller
         $user=User::create($attributes);
         PasswordHistory::create(['user_id'=>$user->id,'password'=>$user->password]);
 
-        return redirect('/login')->with('success','your account is successfully created');
+        // return redirect('/login')->with('success','your account is successfully created');
+        return response()->json([
+            'success'  => ['message'=>['successfully created']],
+        ], 200);
     }
 
     //Login Action's
 
     public function login()
     {
-        return view("aparajitha_ppp::login");
+        return view("aparajitha_ppp::pages.access_controller.login");
     }
 
     public function login_action(Request $request)
@@ -55,9 +58,10 @@ class RegisterController extends Controller
         if(auth()->attempt($attributes))
         {
             return redirect('/')->with('success','login successfully');
+            
         }
 
-        return back()->with('error','faild to login');
+        return back()->with('error','Incorrect email or password');
         
     }
 
@@ -67,14 +71,16 @@ class RegisterController extends Controller
         return redirect('/')->with('success','Good Bye!');
     }
 
-    public function home()
+    public function dashboard()
     {
-        return view("aparajitha_ppp::home");
+        return view("aparajitha_ppp::dashboard");
     }
+
+  
 
     public function change_password()
     {
-        return view("aparajitha_ppp::change_password");
+        return view("aparajitha_ppp::pages.access_controller.change_password");
     }
 
     public function change_password_action(Request $request)
@@ -112,29 +118,38 @@ class RegisterController extends Controller
 
           if($count>0)
           {
-            return back()->with('error','You used this password recently. Please choose a different one.');
+            return response()->json([
+                'errors'  => ['message'=>['You used this password recently. Please choose a different one.']],
+            ], 422);
+            // return back()->with('error','You used this password recently. Please choose a different one.');
           }
           
-        
+          if(!\Hash::check($request->new_password , $DB_password->password )) 
+          {
              if(\Hash::check($request->old_password , $DB_password->password )) 
                 {
                     $update_password=bcrypt($request->new_password);
                     $add_new_password=array("password"=>$update_password);
                     $user_update= User::where('id',auth()->user()->id)->update($add_new_password);
                     PasswordHistory::create(['user_id'=>auth()->user()->id,'password'=>$update_password]);
-                    return back()->with('success','Password changed successfully');
+                    // return back()->with('success','Password changed successfully');
+                    return response()->json([
+                        'success'  => ['message'=>['Password changed successfully']],
+                    ], 200);
                 }
                 else
                 {
-                    return back()->with('error','Incorrect old password');
+                    return response()->json([
+                                'errors'  => ['message'=>['Incorrect old password']],
+                            ], 422);
                 }
-            // }
-            // else
-            // {
-            //     return response()->json([
-            //         'errors'  => ['message'=>['please try different password']],
-            //     ], 422);
-            // }
+            }
+            else
+            {
+                return response()->json([
+                    'errors'  => ['message'=>['You used this password recently. Please choose a different one.']],
+                ], 422);
+            }
 
     }
 

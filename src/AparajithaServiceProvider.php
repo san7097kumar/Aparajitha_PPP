@@ -16,7 +16,7 @@ class AparajithaServiceProvider extends ServiceProvider{
       // __DIR__.'/config/contact.php' => config_path('contact.php'),
       __DIR__.'/views' => resource_path('views/vendor/aparajitha_ppp'),
       __DIR__.'/public' => public_path(''),
-  ]);
+     ]);
    }
 
    public function register()
