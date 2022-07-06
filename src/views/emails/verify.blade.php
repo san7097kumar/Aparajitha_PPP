@@ -19,8 +19,8 @@
                                {{ __('A fresh verification link has been sent to your email address.') }}
                            </div>
                        @endif
-                       <a href="{{ url('/') }}/user/reset_password/{{$token}}">Click Here or Copy and Paste the Below link</a>.<br>
-                       <p>{{ url('/') }}/user/reset_password/{{$token}}</p>
+                       <a href="{{ url('/') }}/reset_password/{{$token}}">Click Here or Copy and Paste the Below link</a>.<br>
+                       <p>{{ url('/') }}/reset_password/{{$token}}</p>
                    </div>
                </div>
            </div>
