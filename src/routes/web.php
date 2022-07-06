@@ -13,12 +13,18 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('logout',[RegisterController::class,'logout'])->name('logout')->middleware('auth');
 
     Route::get('/',[RegisterController::class,'dashboard'])->name('dashboard')->middleware('auth');
+    Route::get('/home',[RegisterController::class,'dashboard'])->name('dashboard')->middleware('auth');
+
     Route::get('/change_password',[RegisterController::class,'change_password'])->name('change_password')->middleware('auth');
     Route::post('/change_password',[RegisterController::class,'change_password_action'])->name('change_password_action')->middleware('auth');
 
-  
+    Route::get('/forgot_password',[RegisterController::class,'forgot_password'])->name('forgot_password')->middleware('guest');
+    Route::post('/forgot_password_action',[RegisterController::class,'forgot_password_action'])->name('forgot_password_action')->middleware('guest');
 
-});
+    Route::get('/reset_password/{token}', [RegisterController::class,'getPassword'])->name('get_password')->middleware('guest');
+    Route::post('/reset_password', [RegisterController::class,'updatePassword'])->name('update_password')->middleware('guest');
+
+  });
 
 // Route::get('/',[ProductController::class,'products_get']);
 
